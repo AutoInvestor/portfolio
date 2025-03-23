@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     outputs:
       new-version: ${{ steps.calculate_version.outputs.NEW_VERSION }}
+      bump: ${{ steps.version_increment.outputs.bump }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -84,11 +85,12 @@ jobs:
         run: ./gradlew spotlessCheck
 
       - name: Build & push docker image
+        if: steps.version_increment.outputs.bump != 'none'
         env:
           DOCKER_IMAGE_VERSION: "${{ steps.calculate_version.outputs.NEW_VERSION }}"
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: ./gradlew bootBuildImage
+        run: ./gradlew bootBuildImage --publish
 
       - name: Create GitHub Release
         if: steps.version_increment.outputs.bump != 'none'
@@ -105,6 +107,7 @@ jobs:
   update-cd-repo:
     uses: AutoInvestor/infra-gitops/.github/workflows/update-version.yml@main
     needs: build_test_release
+    if: needs.build_test_release.outputs.bump != 'none'
     with:
       image: autoinvestor-portfolio
       version: ${{ needs.build_test_release.outputs.new-version }}
