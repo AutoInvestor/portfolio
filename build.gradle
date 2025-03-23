@@ -43,4 +43,5 @@ bootBuildImage {
 			url = "https://index.docker.io/v1/"
 		}
 	}
+	publish = true
 }
