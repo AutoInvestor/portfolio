@@ -90,7 +90,7 @@ jobs:
           DOCKER_IMAGE_VERSION: "${{ steps.calculate_version.outputs.NEW_VERSION }}"
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: ./gradlew bootBuildImage --publish
+        run: ./gradlew bootBuildImage
 
       - name: Create GitHub Release
         if: steps.version_increment.outputs.bump != 'none'
