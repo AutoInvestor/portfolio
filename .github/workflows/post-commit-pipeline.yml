@@ -75,7 +75,7 @@ jobs:
             patch=$((patch + 1))
           fi
           NEW_VERSION="$major.$minor.$patch"
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Build & Test
         run: ./gradlew clean build
