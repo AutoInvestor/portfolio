@@ -8,6 +8,6 @@ class PortfolioApplicationTests {
 
     @Test
     void dummyTest() {
-        assert(true)
+        assert(true);
     }
 }
