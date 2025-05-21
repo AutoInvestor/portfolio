@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'io.freefair.lombok' version '8.13.1'
 }
 
 group = 'io.autoinvestor'
@@ -20,10 +21,22 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.security:spring-security-core:'
+	implementation 'io.jsonwebtoken:jjwt:0.12.6'
+	implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+	implementation platform("com.google.cloud:spring-cloud-gcp-dependencies:6.1.1")
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-pubsub'
+	implementation 'org.springframework.integration:spring-integration-core'
+	implementation 'com.google.cloud:google-cloud-pubsub:1.113.7'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+tasks.withType(JavaCompile).configureEach {
+	options.compilerArgs << '-parameters'
 }
 
 bootBuildImage {
