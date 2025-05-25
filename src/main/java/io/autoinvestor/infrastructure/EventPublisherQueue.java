@@ -10,16 +10,16 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class HoldingEventPublisher {
+public class EventPublisherQueue {
 
     private static final String TOPIC = "portfolio";
     private final PubSubTemplate pubSubTemplate;
 
-    public void publishHoldingAdded(List<HoldingAddedMessage> holdingAddedMessages) {
+    public void publishHoldingAddedOrUpdated(List<HoldingAddedOrUpdatedMessage> holdingAddedMessages) {
         ObjectMapper objectMapper = new ObjectMapper();
-        for (HoldingAddedMessage message : holdingAddedMessages) {
+        for (HoldingAddedOrUpdatedMessage message : holdingAddedMessages) {
             try {
-                String jsonMessage = objectMapper.writeValueAsString(holdingAddedMessages);
+                String jsonMessage = objectMapper.writeValueAsString(message);
                 pubSubTemplate.publish(TOPIC, jsonMessage);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException("Error serializing message to JSON", e);

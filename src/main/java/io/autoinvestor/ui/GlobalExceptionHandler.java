@@ -1,5 +1,6 @@
 package io.autoinvestor.ui;
 
+import io.autoinvestor.exceptions.UserWithoutPortfolio;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +11,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingRequestHeaderException.class)
     public ResponseEntity<ErrorResponse> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
+        return ErrorResponse.builder().status(400).message(ex.getMessage()).build();
+    }
+    @ExceptionHandler(UserWithoutPortfolio.class)
+    public ResponseEntity<ErrorResponse> handleUserWithoutPortfolio(UserWithoutPortfolio ex) {
         return ErrorResponse.builder().status(400).message(ex.getMessage()).build();
     }
 }

@@ -1,8 +1,11 @@
-package io.autoinvestor.application.NewHoldingUseCase;
+package io.autoinvestor.application.UptdateHoldingUseCase;
 
 import io.autoinvestor.application.ComplexReadModelDTO;
 import io.autoinvestor.application.ReadModel;
-import io.autoinvestor.domain.*;
+import io.autoinvestor.domain.AssetId;
+import io.autoinvestor.domain.Event;
+import io.autoinvestor.domain.Wallet;
+import io.autoinvestor.domain.WalletRepository;
 import io.autoinvestor.exceptions.UserWithoutPortfolio;
 import io.autoinvestor.infrastructure.EventMessageMapper;
 import io.autoinvestor.infrastructure.EventPublisherQueue;
@@ -14,20 +17,20 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class NewHoldingCommandHandler {
+public class UpdateHoldingCommandHandler {
 
-    private final WalletRepository eventRepository;
     private final ReadModel readModel;
+    private final WalletRepository eventRepository;
     private final EventMessageMapper messageMapper;
     private final EventPublisherQueue eventPublisher;
 
-    public void handle (NewHoldingCommand command) {
+    public void handle (UpdateHoldingCommand command) {
         String walletId = readModel.getWalletId(command.userId());
         if (walletId == null) {
             throw UserWithoutPortfolio.with(command.userId());
         }
         Wallet wallet = eventRepository.get(walletId);
-        wallet.newHolding(command.userId(), command.assetId(), command.amount(), command.boughtPrice());
+        wallet.updateHolding(command.userId(), command.assetId(), command.amount(), command.boughtPrice());
         List<Event<?>> uncommittedEvents = wallet.releaseEvents();
         this.eventRepository.save(uncommittedEvents);
         ComplexReadModelDTO dto = new ComplexReadModelDTO(
@@ -37,8 +40,8 @@ public class NewHoldingCommandHandler {
                 wallet.getState().holdings().get(AssetId.of(command.assetId())).boughtPrice().value()
 
         );
-        readModel.add(dto);
-        List<HoldingAddedOrUpdatedMessage> holdingAddedMessages = this.messageMapper.mapToHoldingAddedMessage(uncommittedEvents);
-        this.eventPublisher.publishHoldingAddedOrUpdated(holdingAddedMessages);
+        this.readModel.update(dto);
+        List<HoldingAddedOrUpdatedMessage> holdingUpdatedMessages = this.messageMapper.mapToHoldingUpdatedMessage(uncommittedEvents);
+        this.eventPublisher.publishHoldingAddedOrUpdated(holdingUpdatedMessages);
     }
 }

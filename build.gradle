@@ -30,6 +30,11 @@ dependencies {
 	implementation 'com.google.cloud:google-cloud-pubsub:1.113.7'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+	implementation("org.springframework.cloud:spring-cloud-gcp-starter-pubsub:1.2.5.RELEASE")
+	implementation("org.springframework.integration:spring-integration-core")
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-pubsub'
+
+
 }
 
 tasks.named('test') {
