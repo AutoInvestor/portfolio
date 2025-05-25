@@ -11,15 +11,15 @@ public abstract class Event<EventPayload> {
     private final int version;
 
     protected Event(Id aggregateId, String type, EventPayload payload) {
-        this(aggregateId, type, payload, 1);
+        this(aggregateId, type, payload, 1, new Date());
     }
 
-    protected Event(Id aggregateId, String type, EventPayload payload, int version) {
+    protected Event(Id aggregateId, String type, EventPayload payload, int version, Date occurredAt) {
         this.id = EventId.generate();
         this.aggregateId = aggregateId;
         this.type = type;
         this.payload = payload;
-        this.occurredAt = new Date();
+        this.occurredAt = occurredAt;
         this.version = version;
     }
 

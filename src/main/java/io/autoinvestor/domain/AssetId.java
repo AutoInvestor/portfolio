@@ -8,4 +8,7 @@ public class AssetId extends Id {
     public static AssetId generate() {
         return new AssetId(generateId());
     }
+    public static AssetId of(String assetId) {
+        return new AssetId(assetId);
+    }
 }

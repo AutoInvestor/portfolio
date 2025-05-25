@@ -2,14 +2,12 @@ package io.autoinvestor.domain;
 
 import java.util.Map;
 
-public record HoldingWasAddedEventPayload(
+public record HoldingWasUpdatedEventPayload(
         UserId userId,
         AssetId assetId,
         Amount amount,
         BoughtPrice boughtPrice
 ) implements EventPayload{
-
-
     @Override
     public Map<String, Object> asMap() {
         return Map.of(
