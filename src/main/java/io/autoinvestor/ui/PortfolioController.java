@@ -1,6 +1,8 @@
 package io.autoinvestor.ui;
 
 import io.autoinvestor.application.ComplexReadModelDTO;
+import io.autoinvestor.application.DeleteHoldingUseCase.DeleteHoldingCommand;
+import io.autoinvestor.application.DeleteHoldingUseCase.DeleteHoldingCommandHandler;
 import io.autoinvestor.application.NewHoldingUseCase.NewHoldingCommand;
 import io.autoinvestor.application.NewHoldingUseCase.NewHoldingCommandHandler;
 import io.autoinvestor.application.QueryHoldingsUseCase.GetHoldingsQuery;
@@ -27,6 +29,7 @@ public class PortfolioController {
     private final WalletCreatedHandler walletCreatedHandler;
     private final GetHoldingResponseDocumentMapper mapperGetHoldingResponse;
     private final UpdateHoldingCommandHandler updateHoldingCommandHandler;
+    private final DeleteHoldingCommandHandler deleteHoldingCommandHandler;
     @PostMapping
     public ResponseEntity<Void> addHolding(
             @RequestHeader(value = "X-User-Id", required = true) String userId,
@@ -62,6 +65,15 @@ public class PortfolioController {
         ));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+    @DeleteMapping
+    public ResponseEntity<Void> deleteHolding (
+            @RequestHeader (value = "X-User-Id", required = true) String userId,
+            @Valid @RequestParam (value = "assetId", required = true) String assetId
+    ) {
+        deleteHoldingCommandHandler.handle(new DeleteHoldingCommand(assetId, userId));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 
 
     @PostMapping("/user")

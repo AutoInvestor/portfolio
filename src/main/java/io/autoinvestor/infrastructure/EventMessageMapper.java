@@ -1,8 +1,6 @@
 package io.autoinvestor.infrastructure;
 
-import io.autoinvestor.domain.Event;
-import io.autoinvestor.domain.HoldingWasCreatedEventPayload;
-import io.autoinvestor.domain.HoldingWasUpdatedEventPayload;
+import io.autoinvestor.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -55,5 +53,26 @@ public class EventMessageMapper {
             holdingAddedMessages.add(holdingAddedMessage);
         }
         return holdingAddedMessages;
+    }
+
+    public List<HoldingDeletedMessage> mapToHoldingDeletedMessage(String userId, List<Event<?>> holdingDeletedEvent) {
+        List<HoldingDeletedMessage> holdingDeletedMessages = new ArrayList<>();
+        for (Event<?> holdingWasDeleted : holdingDeletedEvent) {
+            HoldingWasDeletedEventPayload payload = (HoldingWasDeletedEventPayload) holdingWasDeleted.getPayload();
+            HoldingDeletedMessagePayload holdingDeletedMessagePayload = new HoldingDeletedMessagePayload(
+                    userId,
+                    payload.assetId().value()
+            );
+            HoldingDeletedMessage holdingDeletedMessage = new HoldingDeletedMessage(
+                    holdingWasDeleted.getId().value(),
+                    holdingWasDeleted.getOccurredAt(),
+                    holdingWasDeleted.getAggregateId().value(),
+                    holdingWasDeleted.getVersion(),
+                    holdingWasDeleted.getType(),
+                    holdingDeletedMessagePayload
+            );
+            holdingDeletedMessages.add(holdingDeletedMessage);
+        }
+        return holdingDeletedMessages;
     }
 }

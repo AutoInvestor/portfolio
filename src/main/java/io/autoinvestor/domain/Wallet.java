@@ -29,6 +29,9 @@ public class Wallet extends AggregateRoot{
                 break;
             case "PORTFOLIO_ASSET_UPDATED" :
                 this.whenHoldingUpdated((HoldingWasUpdatedEvent) event);
+                break;
+            case "PORTFOLIO_ASSET_REMOVED" :
+                this.whenHoldingDeleted((HoldingWasDeletedEvent) event);
 
         }
     }
@@ -41,6 +44,9 @@ public class Wallet extends AggregateRoot{
     }
     private void whenHoldingUpdated(HoldingWasUpdatedEvent event) {
         this.walletState = this.walletState.withHoldingUpdated(event);
+    }
+    private void whenHoldingDeleted(HoldingWasDeletedEvent event){
+        this.walletState = this.walletState.withHoldingDeleted(event);
     }
 
     public static Wallet empty() {
@@ -77,6 +83,11 @@ public class Wallet extends AggregateRoot{
         return this;
     }
 
+    public Wallet deleteHolding(String assetId) {
+        AssetId assetIdDTO = AssetId.of(assetId);
+        deleteHoldingApplier(assetIdDTO);
+        return this;
+    }
 
     public void createWallet(WalletId walletId, UserId userId) {
         this.apply(WalletWasCreatedEvent.with(walletId, userId));
@@ -88,6 +99,10 @@ public class Wallet extends AggregateRoot{
     }
     public void updateHoldingApplier(UserId userId, AssetId assetId, Amount amount, BoughtPrice boughtPrice) {
         this.apply(HoldingWasUpdatedEvent.with(walletState.walletId(), userId, assetId, amount, boughtPrice));
+    }
+
+    public void deleteHoldingApplier(AssetId assetId) {
+        this.apply(HoldingWasDeletedEvent.with(walletState.walletId(), assetId));
     }
 
     public WalletState getState () {

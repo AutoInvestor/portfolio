@@ -26,8 +26,8 @@ public record WalletState(
         Map<AssetId, Holding> holdingsUpdated =  new HashMap<>(this.holdings);
         holdingsUpdated.put(payload.assetId(), newHolding);
         return new WalletState(
-                walletId,
-                userId,
+                this.walletId,
+                this.userId,
                 holdingsUpdated
         );
     }
@@ -36,6 +36,16 @@ public record WalletState(
         HoldingWasUpdatedEventPayload payload = event.getPayload();
         Holding holdingUpdated = new Holding(payload.amount(), payload.boughtPrice());
         holdings.put(payload.assetId(), holdingUpdated);
+        return new WalletState(
+                this.walletId,
+                this.userId,
+                this.holdings
+        );
+    }
+
+    public WalletState withHoldingDeleted(HoldingWasDeletedEvent event) {
+        AssetId assetIdToDelete = event.getPayload().assetId();
+        this.holdings.remove(assetIdToDelete);
         return new WalletState(
                 this.walletId,
                 this.userId,

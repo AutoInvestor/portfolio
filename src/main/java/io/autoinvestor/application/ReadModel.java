@@ -11,5 +11,6 @@ public interface ReadModel {
     void add(ComplexReadModelDTO dto);
     String getWalletId(String userId);
     void update(ComplexReadModelDTO dto);
-    List<ComplexReadModelDTO>  getHoldings (String userId);
+    List<ComplexReadModelDTO> getHoldings (String userId);
+    void removeHolding(String userId, String assetId);
 }

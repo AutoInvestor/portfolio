@@ -52,6 +52,21 @@ public class HoldingEventMapperDocument {
                         walletEvent.getVersion()
                 );
             }
+            case "PORTFOLIO_ASSET_REMOVED" -> {
+                HoldingWasDeletedEventPayload payload = (HoldingWasDeletedEventPayload) walletEvent.getPayload();
+                return new WalletEventDocument(
+                        walletEvent.getId().value(),
+                        walletEvent.getType(),
+                        walletEvent.getAggregateId().value(),
+                        null,
+                        payload.assetId().value(),
+                        null,
+                        null,
+                        walletEvent.getOccurredAt().toInstant(),
+                        walletEvent.getVersion()
+
+                );
+            }
             default -> throw new IllegalArgumentException ("Unknown event type " + walletEvent.getType());
         }
     }
@@ -93,6 +108,17 @@ public class HoldingEventMapperDocument {
                         new BoughtPrice(doc.boughtPrice())
                 );
                 return HoldingWasUpdatedEvent.hydrate(
+                        walletId,
+                        payload,
+                        version,
+                        occurredAt
+                );
+            }
+            case "PORTFOLIO_ASSET_REMOVED" -> {
+                HoldingWasDeletedEventPayload payload = new HoldingWasDeletedEventPayload(
+                        AssetId.of(doc.assetId())
+                );
+                return HoldingWasDeletedEvent.hydrate(
                         walletId,
                         payload,
                         version,

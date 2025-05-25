@@ -59,5 +59,12 @@ public class ReadModelMongo implements ReadModel{
         return mongoTemplate.find(query, ComplexReadModelDocument.class)
                 .stream().map(mapper::toDTOComplex).toList();
     }
+
+    @Override
+    public void removeHolding(String userId, String assetId) {
+        Query query = new Query(Criteria.where("userId").is(userId)
+                .and("assetId").is(assetId));
+        mongoTemplate.remove(query);
+    }
 }
 

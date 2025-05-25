@@ -27,4 +27,16 @@ public class EventPublisherQueue {
         }
 
     }
+    public void publishHoldingDeleted(List<HoldingDeletedMessage> holdingDeletedMessages) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (HoldingDeletedMessage message : holdingDeletedMessages) {
+            try {
+                String jsonMessage = objectMapper.writeValueAsString(message);
+                pubSubTemplate.publish(TOPIC, jsonMessage);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("Error serializing message to JSON", e);
+            }
+        }
+
+    }
 }
