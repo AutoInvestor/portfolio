@@ -30,14 +30,16 @@ public class PortfolioController {
     @PostMapping
     public ResponseEntity<Void> addHolding(
             @RequestHeader(value = "X-User-Id", required = true) String userId,
-            @Valid @RequestBody HoldingRequestDTO holdingRequestDTO) {
+            @Valid @RequestBody List<HoldingRequestDTO> holdingRequestDTO) {
 
-        newHoldingCommandHandler.handle(new NewHoldingCommand(
-                holdingRequestDTO.assetId(),
-                userId,
-                holdingRequestDTO.amount(),
-                holdingRequestDTO.boughtPrice()
-        ));
+        for (HoldingRequestDTO holding : holdingRequestDTO) {
+            newHoldingCommandHandler.handle(new NewHoldingCommand(
+                    holding.assetId(),
+                    userId,
+                    holding.amount(),
+                    holding.boughtPrice()
+            ));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
