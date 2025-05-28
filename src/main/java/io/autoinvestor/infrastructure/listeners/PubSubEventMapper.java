@@ -10,9 +10,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class PubSubEventMapper {
-
-    private final ObjectMapper mapper =
-            new ObjectMapper().setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+    private final ObjectMapper mapper;
 
     public PubSubEvent fromMap(Map<String, ?> raw) {
         return mapper.convertValue(raw, PubSubEvent.class);
