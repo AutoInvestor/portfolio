@@ -1,6 +1,6 @@
 package io.autoinvestor.ui;
 
-import io.autoinvestor.application.ComplexReadModelDTO;
+import io.autoinvestor.application.HoldingsReadModelDTO;
 import io.autoinvestor.application.NewHoldingUseCase.NewHoldingCommand;
 import io.autoinvestor.application.NewHoldingUseCase.NewHoldingCommandHandler;
 import io.autoinvestor.application.QueryHoldingsUseCase.GetHoldingsQuery;
@@ -47,7 +47,7 @@ public class PortfolioController {
     public ResponseEntity<List<GetHoldingResponse>> getHoldings(
             @RequestHeader(value = "X-User-Id", required = true) String userId
     ) {
-        List<ComplexReadModelDTO> documents = getHoldingsQueryHandler.handle(new GetHoldingsQuery(userId));
+        List<HoldingsReadModelDTO> documents = getHoldingsQueryHandler.handle(new GetHoldingsQuery(userId));
 
         return ResponseEntity.ok(documents.stream().map(mapperGetHoldingResponse::map).toList());
     }

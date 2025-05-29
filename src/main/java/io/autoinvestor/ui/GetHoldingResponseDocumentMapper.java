@@ -1,13 +1,12 @@
 package io.autoinvestor.ui;
 
-import io.autoinvestor.application.ComplexReadModelDTO;
-import io.autoinvestor.infrastructure.ReadModel.ComplexReadModelDocument;
+import io.autoinvestor.application.HoldingsReadModelDTO;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GetHoldingResponseDocumentMapper {
 
-public GetHoldingResponse map(ComplexReadModelDTO document) {
+public GetHoldingResponse map(HoldingsReadModelDTO document) {
     return new GetHoldingResponse(
             document.assetId(),
             document.amount(),

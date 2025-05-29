@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Id {
-    private final String id;
+    protected final String id;
 
     public Id(String id) {
         this.id = id;
@@ -24,11 +24,16 @@ public abstract class Id {
             return true;
         if (!(o instanceof Id that))
             return false;
-        return Objects.equals(id, that.id);
+        return id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return id;
     }
 }
