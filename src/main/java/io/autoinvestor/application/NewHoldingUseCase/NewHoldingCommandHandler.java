@@ -9,6 +9,7 @@ import io.autoinvestor.domain.events.WalletEventStoreRepository;
 import io.autoinvestor.domain.model.AssetId;
 import io.autoinvestor.domain.model.Wallet;
 import io.autoinvestor.domain.model.WalletId;
+import io.autoinvestor.exceptions.AssetAlreadyExists;
 import io.autoinvestor.exceptions.UserWithoutPortfolio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class NewHoldingCommandHandler {
             throw UserWithoutPortfolio.with(command.userId());
         }
 
+        if (this.holdingsReadModel.assetAlreadyExists(command.userId(), command.assetId())) {
+            throw AssetAlreadyExists.with(command.userId(), command.assetId());
+        }
         Wallet wallet = this.eventStore.get(WalletId.of(walletId))
                 .orElseThrow(() -> UserWithoutPortfolio.with(command.userId()));
 

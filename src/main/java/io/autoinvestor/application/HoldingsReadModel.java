@@ -7,4 +7,5 @@ public interface HoldingsReadModel {
     void update(HoldingsReadModelDTO dto);
     boolean delete(String userId, String assetId);
     List<HoldingsReadModelDTO> getHoldings(String userId);
+    boolean assetAlreadyExists(String userIs, String assetId);
 }

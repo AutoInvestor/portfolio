@@ -54,4 +54,12 @@ public class MongoHoldingsReadModel implements HoldingsReadModel {
         return this.template.find(query, MongoHoldingsReadModelDocument.class)
                 .stream().map(mapper::toDTO).toList();
     }
+
+    @Override
+    public boolean assetAlreadyExists(String userId, String assetId) {
+        Query query = new Query(Criteria.where("userId").is(userId)
+                .and("assetId").is(assetId));
+        return this.template.exists(query, MongoHoldingsReadModelDocument.class);
+    }
+
 }

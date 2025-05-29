@@ -29,4 +29,9 @@ public class InMemoryHoldingsReadModel implements HoldingsReadModel {
     public List<HoldingsReadModelDTO> getHoldings(String userId) {
         return List.of();
     }
+
+    @Override
+    public boolean assetAlreadyExists(String userIs, String assetId) {
+        return false;
+    }
 }
