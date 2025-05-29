@@ -85,7 +85,7 @@ public class PubSubUsersSubscriber {
                         event.getAggregateId()
                 );
                 this.commandHandler.handle(command);
-                log.info("Decision registered for userId={} msgId={}", command.userId(), msgId);
+                log.info("User registered for userId={} msgId={}", command.userId(), msgId);
             } else {
                 log.debug("Ignored unsupported event type={} msgId={}", event.getType(), msgId);
             }
