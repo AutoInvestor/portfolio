@@ -24,10 +24,10 @@ public class MongoUsersWalletReadModel implements UsersWalletReadModel {
 
     @Override
     public String getWalletId(String userId) {
-        UsersWalletReadModelDTO dto = template.findById(userId, UsersWalletReadModelDTO.class);
+        MongoUsersWalletReadModelDocument doc = template.findById(userId, MongoUsersWalletReadModelDocument.class);
 
-        if (dto != null) {
-            return dto.walletId();
+        if (doc != null) {
+            return doc.walletId();
         }
 
         return null;
