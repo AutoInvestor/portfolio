@@ -79,6 +79,7 @@ public class Wallet extends EventSourcedEntity {
                 break;
             case HoldingWasDeletedEvent.TYPE:
                 whenHoldingDeleted((HoldingWasDeletedEvent) e);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown event type");
         }
