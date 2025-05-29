@@ -8,21 +8,14 @@ import org.springframework.stereotype.Component;
 public class DocumentMapper {
     public MongoUsersWalletReadModelDocument toDocument(UsersWalletReadModelDTO dto) {
         return new MongoUsersWalletReadModelDocument(
-                dto.walletId(),
-                dto.userId()
+                dto.userId(),
+                dto.walletId()
         );
     }
 
     public MongoHoldingsReadModelDocument toDocument(HoldingsReadModelDTO dto) {
         return new MongoHoldingsReadModelDocument(
                 dto.userId(), dto.assetId(), dto.amount(), dto. boughtPrice()
-        );
-    }
-
-    public UsersWalletReadModelDTO toDTO(MongoUsersWalletReadModelDocument document) {
-        return new UsersWalletReadModelDTO(
-                document.walletId(),
-                document.userId()
         );
     }
 
