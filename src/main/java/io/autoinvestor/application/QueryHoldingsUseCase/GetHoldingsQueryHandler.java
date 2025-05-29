@@ -1,7 +1,7 @@
 package io.autoinvestor.application.QueryHoldingsUseCase;
 
-import io.autoinvestor.application.ComplexReadModelDTO;
-import io.autoinvestor.application.ReadModel;
+import io.autoinvestor.application.HoldingsReadModel;
+import io.autoinvestor.application.HoldingsReadModelDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetHoldingsQueryHandler {
 
-    private final ReadModel readModel;
+    private final HoldingsReadModel readModel;
 
-    public List<ComplexReadModelDTO> handle (GetHoldingsQuery query) {
-        return readModel.getHoldings(query.userId());
+    public List<HoldingsReadModelDTO> handle (GetHoldingsQuery query) {
+        return this.readModel.getHoldings(query.userId());
     }
 }

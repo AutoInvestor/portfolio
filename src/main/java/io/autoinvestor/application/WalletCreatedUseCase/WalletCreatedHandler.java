@@ -1,9 +1,10 @@
 package io.autoinvestor.application.WalletCreatedUseCase;
-import io.autoinvestor.application.SimpleReadModelDTO;
-import io.autoinvestor.application.ReadModel;
-import io.autoinvestor.domain.Event;
-import io.autoinvestor.domain.WalletRepository;
-import io.autoinvestor.domain.Wallet;
+import io.autoinvestor.application.UsersWalletReadModel;
+import io.autoinvestor.application.UsersWalletReadModelDTO;
+import io.autoinvestor.domain.events.Event;
+import io.autoinvestor.domain.events.WalletEventStoreRepository;
+import io.autoinvestor.domain.events.EventPublisher;
+import io.autoinvestor.domain.model.Wallet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,21 +14,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WalletCreatedHandler {
 
-    private final WalletRepository eventRepository;
-    private final ReadModel readModel;
+    private final WalletEventStoreRepository eventStore;
+    private final EventPublisher eventPublisher;
+    private final UsersWalletReadModel readModel;
 
     public void handle(WalletCreateCommand command) {
-        System.out.println("Mensaje recibido en WalletCreatedHandler: " + command.userId());
         Wallet wallet = Wallet.create(command.userId());
-        List<Event<?>> uncomittedEvents = wallet.releaseEvents();
-        this.eventRepository.save(uncomittedEvents);
-        SimpleReadModelDTO dto = new SimpleReadModelDTO(
-                wallet.getState().walletId().value(),
-                wallet.getState().userId().value()
+
+        List<Event<?>> events = wallet.getUncommittedEvents();
+
+        this.eventStore.save(wallet);
+
+        UsersWalletReadModelDTO dto = new UsersWalletReadModelDTO(
+                wallet.getState().getWalletId().value(),
+                wallet.getState().getUserId().value()
         );
-        readModel.add(dto);
+        this.readModel.add(dto);
 
+        this.eventPublisher.publish(events);
 
+        wallet.markEventsAsCommitted();
     }
 }
 

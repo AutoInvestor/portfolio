@@ -21,20 +21,24 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation 'org.springframework.security:spring-security-core:'
-	implementation 'io.jsonwebtoken:jjwt:0.12.6'
-	implementation 'io.github.cdimascio:java-dotenv:5.2.2'
-	implementation platform("com.google.cloud:spring-cloud-gcp-dependencies:6.1.1")
-	implementation 'com.google.cloud:spring-cloud-gcp-starter-pubsub'
+
+	implementation 'com.google.cloud:google-cloud-pubsub:1.123.0'
+	implementation "com.google.cloud:spring-cloud-gcp-starter-pubsub:6.1.1"
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'org.springframework.integration:spring-integration-core'
-	implementation 'com.google.cloud:google-cloud-pubsub:1.113.7'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation("jakarta.validation:jakarta.validation-api:3.0.2")
-	implementation("org.springframework.cloud:spring-cloud-gcp-starter-pubsub:1.2.5.RELEASE")
-	implementation("org.springframework.integration:spring-integration-core")
-	implementation 'com.google.cloud:spring-cloud-gcp-starter-pubsub'
 
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+	testImplementation 'org.testcontainers:testcontainers'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.testcontainers:gcloud'
 
+	compileOnly         'org.projectlombok:lombok:1.18.38'
+	annotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+	testCompileOnly         'org.projectlombok:lombok:1.18.38'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.38'
 }
 
 tasks.named('test') {

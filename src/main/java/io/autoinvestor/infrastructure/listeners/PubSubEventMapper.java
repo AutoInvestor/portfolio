@@ -1,7 +1,6 @@
 package io.autoinvestor.infrastructure.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
