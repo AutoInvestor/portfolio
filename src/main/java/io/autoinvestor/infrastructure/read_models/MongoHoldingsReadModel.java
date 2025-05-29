@@ -1,5 +1,6 @@
 package io.autoinvestor.infrastructure.read_models;
 
+import com.mongodb.client.result.DeleteResult;
 import io.autoinvestor.application.HoldingsReadModel;
 import io.autoinvestor.application.HoldingsReadModelDTO;
 import org.springframework.context.annotation.Profile;
@@ -37,6 +38,14 @@ public class MongoHoldingsReadModel implements HoldingsReadModel {
                 .set("boughtPrice", dto.boughtPrice());
 
         this.template.updateFirst(query, update, MongoHoldingsReadModelDocument.class);
+    }
+
+    @Override
+    public boolean delete(String userId, String assetId) {
+        Query query = new Query(Criteria.where("userId").is(userId)
+                .and("assetId").is(assetId));
+        DeleteResult result = this.template.remove(query, MongoHoldingsReadModelDocument.class);
+        return result.getDeletedCount() > 0;
     }
 
     @Override
