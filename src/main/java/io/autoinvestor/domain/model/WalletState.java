@@ -56,4 +56,14 @@ public class WalletState {
                 this.holdings
         );
     }
+
+    public WalletState withHoldingDeleted(HoldingWasDeletedEvent event) {
+        HoldingWasDeletedEventPayload payload = event.getPayload();
+        holdings.remove(AssetId.of(payload.assetId()));
+        return new WalletState(
+                this.walletId,
+                this.userId,
+                this.holdings
+        );
+    }
 }

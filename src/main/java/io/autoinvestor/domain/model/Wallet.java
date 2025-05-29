@@ -57,6 +57,14 @@ public class Wallet extends EventSourcedEntity {
         ));
     }
 
+    public void deleteHolding(String userId, String assetId) {
+        this.apply(HoldingWasDeletedEvent.with(
+                this.state.getWalletId(),
+                UserId.of(userId),
+                AssetId.of(assetId)
+        ));
+    }
+
     @Override
     protected void when(Event<?> e) {
         switch (e.getType()) {
@@ -69,6 +77,8 @@ public class Wallet extends EventSourcedEntity {
             case HoldingWasUpdatedEvent.TYPE:
                 whenHoldingUpdated((HoldingWasUpdatedEvent) e);
                 break;
+            case HoldingWasDeletedEvent.TYPE:
+
             default:
                 throw new IllegalArgumentException("Unknown event type");
         }
@@ -87,5 +97,9 @@ public class Wallet extends EventSourcedEntity {
 
     private void whenHoldingUpdated(HoldingWasUpdatedEvent event) {
         this.state = this.state.withHoldingUpdated(event);
+    }
+
+    private void whenHoldingDeleted(HoldingWasDeletedEvent event) {
+        this.state = this.state.withHoldingDeleted(event);
     }
 }

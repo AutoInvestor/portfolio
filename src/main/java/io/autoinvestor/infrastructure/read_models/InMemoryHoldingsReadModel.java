@@ -21,7 +21,17 @@ public class InMemoryHoldingsReadModel implements HoldingsReadModel {
     }
 
     @Override
+    public boolean delete(String userId, String assetId) {
+        return false;
+    }
+
+    @Override
     public List<HoldingsReadModelDTO> getHoldings(String userId) {
         return List.of();
+    }
+
+    @Override
+    public boolean assetAlreadyExists(String userIs, String assetId) {
+        return false;
     }
 }
