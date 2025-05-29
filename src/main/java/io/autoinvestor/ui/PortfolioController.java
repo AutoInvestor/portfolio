@@ -70,6 +70,7 @@ public class PortfolioController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @DeleteMapping
     public ResponseEntity<Void> deleteHolding (
             @RequestHeader (value = "X-User-Id", required = true) String userId,
             @RequestParam(value = "assetId", required = true) String assetId
