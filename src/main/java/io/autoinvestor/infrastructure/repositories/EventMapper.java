@@ -53,6 +53,12 @@ public class EventMapper {
 
                 return HoldingWasUpdatedEvent.hydrate(id, aggId, payload, occurred, version);
             }
+
+            case HoldingWasDeletedEvent.TYPE -> {
+                HoldingWasDeletedEventPayload payload =
+                        json.convertValue(doc.getPayload(), HoldingWasDeletedEventPayload.class);
+                return HoldingWasDeletedEvent.hydrate(id, aggId, payload, occurred, version);
+            }
             default -> throw new IllegalArgumentException("Unknown event type: " + doc.getType()
             );
         }
