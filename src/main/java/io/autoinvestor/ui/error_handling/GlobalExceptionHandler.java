@@ -1,5 +1,6 @@
 package io.autoinvestor.ui.error_handling;
 
+import io.autoinvestor.exceptions.AssetAlreadyExists;
 import io.autoinvestor.exceptions.UserWithoutPortfolio;
 import io.autoinvestor.ui.PortfolioController;
 import org.springframework.http.ResponseEntity;
@@ -18,4 +19,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUserWithoutPortfolio(UserWithoutPortfolio ex) {
         return ErrorResponse.builder().status(400).message(ex.getMessage()).build();
     }
+    @ExceptionHandler(AssetAlreadyExists.class)
+    public ResponseEntity<ErrorResponse>  handleAssetALreadyExists(AssetAlreadyExists ex) {
+        return ErrorResponse.builder().status(400).message(ex.getMessage()).build();
+    }
+
 }
