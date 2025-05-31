@@ -1,14 +1,16 @@
 package io.autoinvestor.application.WalletCreatedUseCase;
+
 import io.autoinvestor.application.UsersWalletReadModel;
 import io.autoinvestor.application.UsersWalletReadModelDTO;
 import io.autoinvestor.domain.events.Event;
-import io.autoinvestor.domain.events.WalletEventStoreRepository;
 import io.autoinvestor.domain.events.EventPublisher;
+import io.autoinvestor.domain.events.WalletEventStoreRepository;
 import io.autoinvestor.domain.model.Wallet;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -25,10 +27,10 @@ public class WalletCreatedHandler {
 
         this.eventStore.save(wallet);
 
-        UsersWalletReadModelDTO dto = new UsersWalletReadModelDTO(
-                wallet.getState().getWalletId().value(),
-                wallet.getState().getUserId().value()
-        );
+        UsersWalletReadModelDTO dto =
+                new UsersWalletReadModelDTO(
+                        wallet.getState().getWalletId().value(),
+                        wallet.getState().getUserId().value());
         this.readModel.add(dto);
 
         this.eventPublisher.publish(events);
@@ -36,4 +38,3 @@ public class WalletCreatedHandler {
         wallet.markEventsAsCommitted();
     }
 }
-

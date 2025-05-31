@@ -15,7 +15,7 @@ public class BoughtPrice {
         return new BoughtPrice(boughtPrice);
     }
 
-    private static void validate (Integer boughtPrice) {
+    private static void validate(Integer boughtPrice) {
         if (boughtPrice < 1) {
             throw InvalidBoughtPrice.with(boughtPrice);
         }

@@ -1,5 +1,3 @@
 package io.autoinvestor.application.WalletCreatedUseCase;
 
-public record WalletCreateCommand(
-        String userId
-) {}
+public record WalletCreateCommand(String userId) {}

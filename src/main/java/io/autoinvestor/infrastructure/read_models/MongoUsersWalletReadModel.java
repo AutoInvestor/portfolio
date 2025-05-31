@@ -2,6 +2,7 @@ package io.autoinvestor.infrastructure.read_models;
 
 import io.autoinvestor.application.UsersWalletReadModel;
 import io.autoinvestor.application.UsersWalletReadModelDTO;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,8 @@ public class MongoUsersWalletReadModel implements UsersWalletReadModel {
 
     @Override
     public String getWalletId(String userId) {
-        MongoUsersWalletReadModelDocument doc = template.findById(userId, MongoUsersWalletReadModelDocument.class);
+        MongoUsersWalletReadModelDocument doc =
+                template.findById(userId, MongoUsersWalletReadModelDocument.class);
 
         if (doc != null) {
             return doc.walletId();

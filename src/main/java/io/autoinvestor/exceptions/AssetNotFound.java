@@ -5,7 +5,7 @@ public class AssetNotFound extends RuntimeException {
         super(message);
     }
 
-    public static AssetNotFound with (String assetId) {
+    public static AssetNotFound with(String assetId) {
         String errorMessage = "Asset with assetId " + assetId + " doesn't exist";
         return new AssetNotFound(errorMessage);
     }

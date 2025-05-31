@@ -12,30 +12,33 @@ public class HoldingWasCreatedEvent extends Event<HoldingWasCreatedEventPayload>
         super(aggregateId, TYPE, payload);
     }
 
-    protected HoldingWasCreatedEvent(EventId id,
-                                     Id aggregateId,
-                                     HoldingWasCreatedEventPayload payload,
-                                     Date occurredAt,
-                                     int version) {
+    protected HoldingWasCreatedEvent(
+            EventId id,
+            Id aggregateId,
+            HoldingWasCreatedEventPayload payload,
+            Date occurredAt,
+            int version) {
         super(id, aggregateId, TYPE, payload, occurredAt, version);
     }
 
-    public static HoldingWasCreatedEvent with(WalletId walletId,
-                                              UserId userId,
-                                              AssetId assetId,
-                                              Amount amount,
-                                              BoughtPrice boughtPrice) {
-        HoldingWasCreatedEventPayload payload = new HoldingWasCreatedEventPayload(
-                userId.value(), assetId.value(), amount.value(), boughtPrice.value()
-        );
+    public static HoldingWasCreatedEvent with(
+            WalletId walletId,
+            UserId userId,
+            AssetId assetId,
+            Amount amount,
+            BoughtPrice boughtPrice) {
+        HoldingWasCreatedEventPayload payload =
+                new HoldingWasCreatedEventPayload(
+                        userId.value(), assetId.value(), amount.value(), boughtPrice.value());
         return new HoldingWasCreatedEvent(walletId, payload);
     }
 
-    public static HoldingWasCreatedEvent hydrate(EventId id,
-                                            Id aggregateId,
-                                            HoldingWasCreatedEventPayload payload,
-                                            Date occurredAt,
-                                            int version) {
+    public static HoldingWasCreatedEvent hydrate(
+            EventId id,
+            Id aggregateId,
+            HoldingWasCreatedEventPayload payload,
+            Date occurredAt,
+            int version) {
         return new HoldingWasCreatedEvent(id, aggregateId, payload, occurredAt, version);
     }
 }

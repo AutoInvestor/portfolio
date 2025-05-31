@@ -1,7 +1,3 @@
 package io.autoinvestor.application.HoldingDeleteUseCase;
 
-public record HoldingDeleteCommand(
-        String userId,
-        String assetId
-) {
-}
+public record HoldingDeleteCommand(String userId, String assetId) {}

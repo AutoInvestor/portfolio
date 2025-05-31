@@ -12,28 +12,26 @@ public class WalletWasCreatedEvent extends Event<WalletWasCreatedEventPayload> {
         super(aggregateId, TYPE, payload);
     }
 
-    protected WalletWasCreatedEvent(EventId id,
-                                    Id aggregateId,
-                                    WalletWasCreatedEventPayload payload,
-                                    Date occurredAt,
-                                    int version) {
+    protected WalletWasCreatedEvent(
+            EventId id,
+            Id aggregateId,
+            WalletWasCreatedEventPayload payload,
+            Date occurredAt,
+            int version) {
         super(id, aggregateId, TYPE, payload, occurredAt, version);
     }
 
-    public static WalletWasCreatedEvent with(WalletId walletId,
-                                             UserId userId) {
-        WalletWasCreatedEventPayload payload = new WalletWasCreatedEventPayload(
-                userId.value()
-        );
+    public static WalletWasCreatedEvent with(WalletId walletId, UserId userId) {
+        WalletWasCreatedEventPayload payload = new WalletWasCreatedEventPayload(userId.value());
         return new WalletWasCreatedEvent(walletId, payload);
     }
 
-    public static WalletWasCreatedEvent hydrate(EventId id,
-                                                Id aggregateId,
-                                                WalletWasCreatedEventPayload payload,
-                                                Date occurredAt,
-                                                int version) {
+    public static WalletWasCreatedEvent hydrate(
+            EventId id,
+            Id aggregateId,
+            WalletWasCreatedEventPayload payload,
+            Date occurredAt,
+            int version) {
         return new WalletWasCreatedEvent(id, aggregateId, payload, occurredAt, version);
     }
-
 }
