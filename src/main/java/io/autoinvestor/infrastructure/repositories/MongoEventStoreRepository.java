@@ -4,16 +4,17 @@ import io.autoinvestor.domain.events.Event;
 import io.autoinvestor.domain.events.WalletEventStoreRepository;
 import io.autoinvestor.domain.model.Wallet;
 import io.autoinvestor.domain.model.WalletId;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 @Profile("prod")
@@ -30,20 +31,18 @@ public class MongoEventStoreRepository implements WalletEventStoreRepository {
 
     @Override
     public void save(Wallet wallet) {
-        List<EventDocument> docs = wallet.getUncommittedEvents()
-                .stream()
-                .map(mapper::toDocument)
-                .collect(Collectors.toList());
+        List<EventDocument> docs =
+                wallet.getUncommittedEvents().stream()
+                        .map(mapper::toDocument)
+                        .collect(Collectors.toList());
         template.insertAll(docs);
     }
 
     @Override
     public Optional<Wallet> get(WalletId walletId) {
-        Query q = Query.query(
-                        Criteria.where("aggregateId")
-                                .is(walletId.value())
-                )
-                .with(Sort.by("version"));
+        Query q =
+                Query.query(Criteria.where("aggregateId").is(walletId.value()))
+                        .with(Sort.by("version"));
 
         List<EventDocument> docs = template.find(q, EventDocument.class, COLLECTION);
 
@@ -51,9 +50,7 @@ public class MongoEventStoreRepository implements WalletEventStoreRepository {
             return Optional.empty();
         }
 
-        List<Event<?>> events = docs.stream()
-                .map(mapper::toDomain)
-                .collect(Collectors.toList());
+        List<Event<?>> events = docs.stream().map(mapper::toDomain).collect(Collectors.toList());
 
         if (events.isEmpty()) {
             return Optional.empty();

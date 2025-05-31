@@ -1,6 +1,5 @@
 package io.autoinvestor.domain.model;
 
-
 import io.autoinvestor.domain.events.*;
 import lombok.Getter;
 
@@ -28,42 +27,31 @@ public class WalletState {
         return new WalletState(
                 WalletId.of(event.getAggregateId().value()),
                 UserId.of(payload.userId()),
-                new HashMap<>()
-        );
+                new HashMap<>());
     }
 
     public WalletState withHoldingCreated(HoldingWasCreatedEvent event) {
         HoldingWasCreatedEventPayload payload = event.getPayload();
         WalletId walletId = (WalletId) event.getAggregateId();
         UserId userId = UserId.of(payload.userId());
-        Holding newHolding = Holding.of(Amount.of(payload.amount()), BoughtPrice.of(payload.boughtPrice()));
-        Map<AssetId, Holding> holdingsUpdated =  new HashMap<>(this.holdings);
+        Holding newHolding =
+                Holding.of(Amount.of(payload.amount()), BoughtPrice.of(payload.boughtPrice()));
+        Map<AssetId, Holding> holdingsUpdated = new HashMap<>(this.holdings);
         holdingsUpdated.put(AssetId.of(payload.assetId()), newHolding);
-        return new WalletState(
-                walletId,
-                userId,
-                holdingsUpdated
-        );
+        return new WalletState(walletId, userId, holdingsUpdated);
     }
 
     public WalletState withHoldingUpdated(HoldingWasUpdatedEvent event) {
         HoldingWasUpdatedEventPayload payload = event.getPayload();
-        Holding holdingUpdated = Holding.of(Amount.of(payload.amount()), BoughtPrice.of(payload.boughtPrice()));
+        Holding holdingUpdated =
+                Holding.of(Amount.of(payload.amount()), BoughtPrice.of(payload.boughtPrice()));
         holdings.put(AssetId.of(payload.assetId()), holdingUpdated);
-        return new WalletState(
-                this.walletId,
-                this.userId,
-                this.holdings
-        );
+        return new WalletState(this.walletId, this.userId, this.holdings);
     }
 
     public WalletState withHoldingDeleted(HoldingWasDeletedEvent event) {
         HoldingWasDeletedEventPayload payload = event.getPayload();
         holdings.remove(AssetId.of(payload.assetId()));
-        return new WalletState(
-                this.walletId,
-                this.userId,
-                this.holdings
-        );
+        return new WalletState(this.walletId, this.userId, this.holdings);
     }
 }

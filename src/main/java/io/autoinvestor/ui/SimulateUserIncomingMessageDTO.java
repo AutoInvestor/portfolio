@@ -6,9 +6,6 @@ public record SimulateUserIncomingMessageDTO(
         String aggregateId,
         String version,
         String type,
-        Payload payload
-) {
-    public record Payload (
-            String userId
-    ) {}
+        Payload payload) {
+    public record Payload(String userId) {}
 }

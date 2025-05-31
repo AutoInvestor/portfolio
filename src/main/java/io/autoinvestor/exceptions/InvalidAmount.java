@@ -5,7 +5,7 @@ public class InvalidAmount extends RuntimeException {
         super(message);
     }
 
-    public static InvalidAmount with (Integer amount) {
+    public static InvalidAmount with(Integer amount) {
         String exceptionMessage = "Amount of " + amount + " is not valid";
         return new InvalidAmount(exceptionMessage);
     }

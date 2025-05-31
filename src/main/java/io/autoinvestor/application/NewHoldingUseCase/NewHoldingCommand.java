@@ -1,9 +1,4 @@
 package io.autoinvestor.application.NewHoldingUseCase;
 
 public record NewHoldingCommand(
-        String assetId,
-        String userId,
-        Integer amount,
-        Integer boughtPrice
-) {
-}
+        String assetId, String userId, Integer amount, Integer boughtPrice) {}

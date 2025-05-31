@@ -9,9 +9,10 @@ import io.autoinvestor.domain.model.Wallet;
 import io.autoinvestor.domain.model.WalletId;
 import io.autoinvestor.exceptions.UserWithoutPortfolio;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -22,13 +23,15 @@ public class HoldingDeleteCommandHandler {
     private final HoldingsReadModel holdingsReadModel;
     private final EventPublisher eventPublisher;
 
-    public void handle (HoldingDeleteCommand command) {
+    public void handle(HoldingDeleteCommand command) {
         String walletId = this.usersWalletReadModel.getWalletId(command.userId());
         if (walletId == null) {
             throw UserWithoutPortfolio.with(command.userId());
         }
-        Wallet wallet = this.eventStore.get(WalletId.of(walletId))
-                .orElseThrow(() -> UserWithoutPortfolio.with(command.userId()));
+        Wallet wallet =
+                this.eventStore
+                        .get(WalletId.of(walletId))
+                        .orElseThrow(() -> UserWithoutPortfolio.with(command.userId()));
         wallet.deleteHolding(command.userId(), command.assetId());
         List<Event<?>> events = wallet.getUncommittedEvents();
 

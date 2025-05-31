@@ -3,7 +3,7 @@ package io.autoinvestor.domain.model;
 import io.autoinvestor.domain.Id;
 
 public class UserId extends Id {
-    public UserId(String id){
+    public UserId(String id) {
         super(id);
     }
 
@@ -11,7 +11,7 @@ public class UserId extends Id {
         return new UserId(generateId());
     }
 
-    public static UserId of(String userId){
+    public static UserId of(String userId) {
         return new UserId(userId);
     }
 

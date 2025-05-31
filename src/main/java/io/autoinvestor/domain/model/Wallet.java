@@ -29,40 +29,36 @@ public class Wallet extends EventSourcedEntity {
     public static Wallet create(String userId) {
         Wallet wallet = Wallet.empty();
 
-        wallet.apply(WalletWasCreatedEvent.with(
-                wallet.getState().getWalletId(),
-                UserId.of(userId))
-        );
+        wallet.apply(
+                WalletWasCreatedEvent.with(wallet.getState().getWalletId(), UserId.of(userId)));
 
         return wallet;
     }
 
     public void createHolding(String userId, String assetId, Integer amount, Integer boughtPrice) {
-        this.apply(HoldingWasCreatedEvent.with(
-                this.state.getWalletId(),
-                UserId.of(userId),
-                AssetId.of(assetId),
-                Amount.of(amount),
-                BoughtPrice.of(boughtPrice)
-        ));
+        this.apply(
+                HoldingWasCreatedEvent.with(
+                        this.state.getWalletId(),
+                        UserId.of(userId),
+                        AssetId.of(assetId),
+                        Amount.of(amount),
+                        BoughtPrice.of(boughtPrice)));
     }
 
     public void updateHolding(String userId, String assetId, Integer amount, Integer boughtPrice) {
-        this.apply(HoldingWasUpdatedEvent.with(
-                this.state.getWalletId(),
-                UserId.of(userId),
-                AssetId.of(assetId),
-                Amount.of(amount),
-                BoughtPrice.of(boughtPrice)
-        ));
+        this.apply(
+                HoldingWasUpdatedEvent.with(
+                        this.state.getWalletId(),
+                        UserId.of(userId),
+                        AssetId.of(assetId),
+                        Amount.of(amount),
+                        BoughtPrice.of(boughtPrice)));
     }
 
     public void deleteHolding(String userId, String assetId) {
-        this.apply(HoldingWasDeletedEvent.with(
-                this.state.getWalletId(),
-                UserId.of(userId),
-                AssetId.of(assetId)
-        ));
+        this.apply(
+                HoldingWasDeletedEvent.with(
+                        this.state.getWalletId(), UserId.of(userId), AssetId.of(assetId)));
     }
 
     @Override

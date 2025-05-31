@@ -1,13 +1,15 @@
 package io.autoinvestor.infrastructure.repositories;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.autoinvestor.domain.events.*;
 import io.autoinvestor.domain.model.*;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class EventMapper {
@@ -24,8 +26,7 @@ public class EventMapper {
                 evt.getType(),
                 payloadMap,
                 evt.getOccurredAt(),
-                evt.getVersion()
-        );
+                evt.getVersion());
     }
 
     public Event<?> toDomain(EventDocument doc) {
@@ -59,8 +60,7 @@ public class EventMapper {
                         json.convertValue(doc.getPayload(), HoldingWasDeletedEventPayload.class);
                 return HoldingWasDeletedEvent.hydrate(id, aggId, payload, occurred, version);
             }
-            default -> throw new IllegalArgumentException("Unknown event type: " + doc.getType()
-            );
+            default -> throw new IllegalArgumentException("Unknown event type: " + doc.getType());
         }
     }
 }
