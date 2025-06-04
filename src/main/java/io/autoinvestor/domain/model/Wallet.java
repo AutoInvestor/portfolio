@@ -99,4 +99,9 @@ public class Wallet extends EventSourcedEntity {
     private void whenHoldingDeleted(HoldingWasDeletedEvent event) {
         this.state = this.state.withHoldingDeleted(event);
     }
+
+    public WalletState getState () {
+        return this.state;
+    }
+
 }
