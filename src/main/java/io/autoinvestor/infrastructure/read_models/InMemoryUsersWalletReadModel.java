@@ -3,11 +3,11 @@ package io.autoinvestor.infrastructure.read_models;
 import io.autoinvestor.application.UsersWalletReadModel;
 import io.autoinvestor.application.UsersWalletReadModelDTO;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("local")
@@ -19,6 +19,7 @@ public class InMemoryUsersWalletReadModel implements UsersWalletReadModel {
         readModel.put("user-1", "wallet-1");
         readModel.put("user-2", "wallet-2");
     }
+
     @Override
     public void add(UsersWalletReadModelDTO dto) {
         readModel.put(dto.userId(), dto.walletId());
@@ -32,6 +33,4 @@ public class InMemoryUsersWalletReadModel implements UsersWalletReadModel {
     public void clear() {
         readModel.clear();
     }
-
-
 }

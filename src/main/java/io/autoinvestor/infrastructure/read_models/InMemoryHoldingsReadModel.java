@@ -16,12 +16,10 @@ public class InMemoryHoldingsReadModel implements HoldingsReadModel {
 
     Collection<HoldingsReadModelDTO> holdings = new ArrayList<>();
 
-    public InMemoryHoldingsReadModel () {
-        holdings.add(new HoldingsReadModelDTO("user-1",
-                "asset-1",
-                1,
-                1));
+    public InMemoryHoldingsReadModel() {
+        holdings.add(new HoldingsReadModelDTO("user-1", "asset-1", 1, 1));
     }
+
     @Override
     public void add(HoldingsReadModelDTO dto) {
         holdings.add(dto);
@@ -37,9 +35,7 @@ public class InMemoryHoldingsReadModel implements HoldingsReadModel {
 
     @Override
     public List<HoldingsReadModelDTO> getHoldings(String userId) {
-        return holdings.stream()
-                .filter(doc -> doc.userId().equals(userId))
-                .toList();
+        return holdings.stream().filter(doc -> doc.userId().equals(userId)).toList();
     }
 
     @Override

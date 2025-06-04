@@ -55,7 +55,7 @@ public class WalletState {
         return new WalletState(this.walletId, this.userId, this.holdings);
     }
 
-    public String getWalletIdString (){
+    public String getWalletIdString() {
         return this.walletId.value();
     }
 }
