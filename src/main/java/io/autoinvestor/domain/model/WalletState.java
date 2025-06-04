@@ -54,4 +54,8 @@ public class WalletState {
         holdings.remove(AssetId.of(payload.assetId()));
         return new WalletState(this.walletId, this.userId, this.holdings);
     }
+
+    public String getWalletIdString() {
+        return this.walletId.value();
+    }
 }
